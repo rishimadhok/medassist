@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Office Assistant for Pain Management Clinics</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        .float-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body class="font-sans">
+    <!-- Navigation -->
+    <nav class="bg-white/80 backdrop-blur-md shadow-sm fixed w-full z-10">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-12">
+                    <a href="#" class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-indigo-600 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-robot text-white text-xl"></i>
+                        </div>
+                        <span class="text-2xl font-bold text-indigo-600">MedAssist AI</span>
+                    </a>
+                    <div class="hidden md:flex items-center gap-8">
+                        <a href="#solutions" class="text-gray-600 hover:text-indigo-600 transition-colors duration-300">Solutions</a>
+                        <a href="#features" class="text-gray-600 hover:text-indigo-600 transition-colors duration-300">Features</a>
+                        <a href="#about" class="text-gray-600 hover:text-indigo-600 transition-colors duration-300">About</a>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4">
+                    <a href="contact.html" class="bg-indigo-600 text-white px-6 py-2 rounded-full hover:bg-indigo-700 transition-all duration-300">
+                        Contact Us
+                    </a>
+                    <!-- Mobile menu button -->
+                    <button class="md:hidden text-gray-600 hover:text-indigo-600 transition-colors duration-300">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- Mobile menu (hidden by default) -->
+            <div class="md:hidden hidden pt-4">
+                <div class="flex flex-col gap-4">
+                    <a href="#solutions" class="text-gray-600 hover:text-indigo-600 transition-colors duration-300">Solutions</a>
+                    <a href="#features" class="text-gray-600 hover:text-indigo-600 transition-colors duration-300">Features</a>
+                    <a href="#about" class="text-gray-600 hover:text-indigo-600 transition-colors duration-300">About</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="pt-32 pb-20 bg-gradient-to-br from-indigo-50 via-white to-blue-50">
+        <div class="container mx-auto px-6">
+            <div class="max-w-2xl mx-auto">
+                <div class="space-y-8 text-center">
+                    <h1 class="text-4xl md:text-6xl font-bold text-gray-800 leading-tight">
+                        Transform Your Pain Management Practice with AI
+                    </h1>
+                    <p class="text-xl text-gray-600">
+                        Reduce staff burnout. Automate scheduling, pre-authorizations, and insurance workflows with our intelligent AI assistant.
+                    </p>
+                    <form class="max-w-md mx-auto" id="waitlistForm">
+                        <div class="flex gap-4">
+                            <input type="email" placeholder="Enter your email" 
+                                class="flex-1 px-4 py-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <button type="submit" 
+                                class="bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 transition-all duration-300">
+                                Join Waitlist
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Recording Section -->
+    <section id="demo" class="py-16 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">Hear Our AI Assistant in Action</h2>
+                <div class="bg-gradient-to-br from-indigo-50 to-blue-50 rounded-2xl p-8 shadow-lg">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-12 h-12 bg-indigo-600 rounded-full flex items-center justify-center">
+                            <i class="fas fa-check text-white text-xl"></i>
+                        </div>
+                        <p class="text-gray-700 text-lg">
+                            Let AI talk to patients on phone and schedule appointments
+                        </p>
+                    </div>
+                    
+                    <!-- Audio Player Container -->
+                    <div class="relative w-full rounded-xl overflow-hidden bg-gradient-to-r from-indigo-600 to-indigo-700 p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-3">
+                                <h3 class="text-white text-lg font-semibold">Patient Scheduling</h3>
+                            </div>
+                            <span id="duration" class="text-white/80">0:30</span>
+                        </div>
+                        
+                        <!-- Custom Audio Controls -->
+                        <div class="flex items-center gap-4">
+                            <button id="playPauseBtn" class="bg-white w-12 h-12 rounded-full flex items-center justify-center hover:bg-gray-100 transition-all duration-300">
+                                <i class="fas fa-play text-indigo-600 text-lg"></i>
+                            </button>
+                            
+                            <div class="flex-1 flex items-center gap-3">
+                                <span id="currentTime" class="text-white min-w-[45px]">0:00</span>
+                                <div class="relative flex-1 h-2 bg-white/20 rounded-full cursor-pointer" id="progressContainer">
+                                    <div id="progressBar" class="absolute left-0 top-0 h-full bg-white rounded-full" style="width: 0%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-20 bg-gradient-to-br from-indigo-50 via-white to-blue-50">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">What Our Clients Say</h2>
+            <div class="max-w-4xl mx-auto">
+                <div class="bg-white rounded-2xl shadow-lg p-8 md:p-12 relative">
+                    <div class="absolute top-0 right-0 transform translate-x-2 -translate-y-2">
+                        <i class="fas fa-quote-right text-6xl text-indigo-100"></i>
+                    </div>
+                    <div class="flex flex-col md:flex-row gap-8 items-center">
+                        <div class="w-32 h-32 flex-shrink-0">
+                            <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                                 alt="Dr. Sarah Chen"
+                                 class="w-full h-full object-cover rounded-full border-4 border-indigo-100">
+                        </div>
+                        <div class="flex-1 text-center md:text-left">
+                            <p class="text-xl md:text-2xl text-gray-700 mb-6 relative">
+                                "Our clinic was drowning in administrative work. This AI assistant has transformed how we operate. Our staff is happier, patients are getting seen faster, and our pre-auth approval rate has increased by 40%."
+                            </p>
+                            <div>
+                                <h4 class="text-lg font-semibold text-gray-800">Dr. Sarah Chen</h4>
+                                <p class="text-gray-600">Medical Director, Valley Pain Specialists</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pain Points Section -->
+    <section id="solutions" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">What We're Solving</h2>
+            <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <div class="flex items-start gap-4 p-6 bg-gradient-to-br from-indigo-50 to-blue-50 rounded-xl shadow-sm hover:shadow-md transition-all duration-300">
+                    <i class="fas fa-users text-indigo-600 text-xl mt-1"></i>
+                    <div>
+                        <h3 class="font-semibold text-xl mb-2">Staff Shortage and High Turnover</h3>
+                        <p class="text-gray-600">Our AI assistant helps maintain continuity of operations even during staffing changes.</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4 p-6 bg-gradient-to-br from-indigo-50 to-blue-50 rounded-xl shadow-sm hover:shadow-md transition-all duration-300">
+                    <i class="fas fa-clipboard-check text-indigo-600 text-xl mt-1"></i>
+                    <div>
+                        <h3 class="font-semibold text-xl mb-2">Complex Pre-Authorization Process</h3>
+                        <p class="text-gray-600">Streamline and automate pre-authorization workflows to save time and reduce errors.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solution Overview -->
+    <section id="features" class="py-20 bg-gradient-to-br from-indigo-50 to-blue-50">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">What Our AI Assistant Can Do</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300">
+                    <i class="fas fa-calendar text-indigo-600 text-2xl mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-4">Scheduling</h3>
+                    <ul class="space-y-3 text-gray-600">
+                        <li>• Take calls/texts 24/7</li>
+                        <li>• Auto-fill no-shows</li>
+                        <li>• Follow-up on referrals</li>
+                    </ul>
+                </div>
+                <div class="p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300">
+                    <i class="fas fa-file-medical text-indigo-600 text-2xl mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-4">Pre-Authorization</h3>
+                    <ul class="space-y-3 text-gray-600">
+                        <li>• Review policy changes</li>
+                        <li>• Auto-submit forms</li>
+                        <li>• Flag potential issues</li>
+                    </ul>
+                </div>
+                <div class="p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300">
+                    <i class="fas fa-shield-alt text-indigo-600 text-2xl mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-4">Insurance Verification</h3>
+                    <ul class="space-y-3 text-gray-600">
+                        <li>• Log into portals</li>
+                        <li>• Call payors</li>
+                        <li>• Explain benefits to patients</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 bg-gradient-to-r from-indigo-600 to-indigo-700 text-white">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-3xl font-bold mb-8">Ready to Transform Your Clinic?</h2>
+            <p class="text-xl mb-12 max-w-2xl mx-auto">
+                Join leading pain management clinics already using our AI assistant to streamline their operations.
+            </p>
+            <form class="max-w-md mx-auto" id="earlyAccessForm">
+                <div class="flex gap-4">
+                    <input type="email" placeholder="Enter your email" 
+                        class="flex-1 px-4 py-3 rounded-lg border text-gray-800 focus:outline-none focus:ring-2 focus:ring-white">
+                    <button type="submit" 
+                        class="bg-white text-indigo-600 px-6 py-3 rounded-lg hover:bg-gray-100 transition-all duration-300">
+                        Get Early Access
+                    </button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-2 gap-12 items-center max-w-4xl mx-auto">
+                <div>
+                    <img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80" 
+                         alt="Medical team" 
+                         class="rounded-2xl shadow-lg">
+                </div>
+                <div class="space-y-6">
+                    <h2 class="text-3xl font-bold text-gray-800">About Us</h2>
+                    <p class="text-gray-600">
+                        Founded by healthcare technology experts, we're on a mission to eliminate administrative burden
+                        in pain management clinics through intelligent automation.
+                    </p>
+                    <p class="text-gray-600">
+                        Our team combines decades of healthcare experience with cutting-edge AI technology to deliver
+                        solutions that make a real difference in clinic operations.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-50 py-12">
+        <div class="container mx-auto px-6 text-center text-gray-600">
+            <p>© 2025 MedAssist AI. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.querySelector('nav .md\\:hidden').classList.add('hidden');
+            });
+        });
+
+        // Mobile menu toggle
+        const mobileMenuBtn = document.querySelector('nav button');
+        const mobileMenu = document.querySelector('nav .md\\:hidden');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Simple form handling
+        document.getElementById('waitlistForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thanks for joining our waitlist! We\'ll be in touch soon.');
+        });
+
+        document.getElementById('earlyAccessForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thanks for your interest! We\'ll contact you about early access.');
+        });
+
+        // Audio player functionality
+        const audio = new Audio('path/to/your/audio.mp3'); // Replace with your audio file path
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const progressBar = document.getElementById('progressBar');
+        const progressContainer = document.getElementById('progressContainer');
+        const currentTimeEl = document.getElementById('currentTime');
+        const durationEl = document.getElementById('duration');
+
+        playPauseBtn.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play();
+                playPauseBtn.innerHTML = '<i class="fas fa-pause text-indigo-600 text-lg"></i>';
+            } else {
+                audio.pause();
+                playPauseBtn.innerHTML = '<i class="fas fa-play text-indigo-600 text-lg"></i>';
+            }
+        });
+
+        progressContainer.addEventListener('click', (e) => {
+            const rect = progressContainer.getBoundingClientRect();
+            const percent = (e.clientX - rect.left) / rect.width;
+            audio.currentTime = percent * audio.duration;
+        });
+
+        audio.addEventListener('timeupdate', () => {
+            const progress = (audio.currentTime / audio.duration) * 100;
+            progressBar.style.width = progress + '%';
+            
+            const currentMins = Math.floor(audio.currentTime / 60);
+            const currentSecs = Math.floor(audio.currentTime % 60);
+            currentTimeEl.textContent = `${currentMins}:${currentSecs.toString().padStart(2, '0')}`;
+        });
+
+        audio.addEventListener('loadedmetadata', () => {
+            const totalMins = Math.floor(audio.duration / 60);
+            const totalSecs = Math.floor(audio.duration % 60);
+            durationEl.textContent = `${totalMins}:${totalSecs.toString().padStart(2, '0')}`;
+        });
+
+        audio.addEventListener('ended', () => {
+            playPauseBtn.innerHTML = '<i class="fas fa-play text-indigo-600 text-lg"></i>';
+        });
+    </script>
+</body>
+</html> 
